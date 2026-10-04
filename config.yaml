@@ -1,0 +1,44 @@
+app:
+  log_level: INFO
+
+paths:
+  data_dir: data
+  vectorstore_dir: vectorstore
+  state_file: vectorstore/ingestion_state.json
+
+chunking:
+  size: 1000
+  overlap: 150
+
+retrieval:
+  top_k: 4
+
+embeddings:
+  provider: huggingface # huggingface | openai
+  model: sentence-transformers/all-MiniLM-L6-v2
+  device: cpu
+
+vectorstore:
+  provider: chroma # chroma
+  collection: rag_documents
+
+llm:
+  provider: ollama # ollama | huggingface | openai | anthropic
+  model: llama3.2
+  temperature: 0.2
+  max_tokens: 1024
+
+providers:
+  ollama:
+    base_url: http://localhost:11434
+  huggingface:
+    # Uses HUGGINGFACEHUB_API_TOKEN from .env for hosted inference.
+    task: text-generation
+  openai:
+    base_url: null
+  anthropic:
+    # Uses ANTHROPIC_API_KEY from .env.
+    base_url: null
+
+prompt:
+  system_file: prompts/system.txt
